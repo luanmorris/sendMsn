@@ -1,10 +1,14 @@
 #!/usr/bin/node
 
-const qrcode = require('qrcode-terminal');
+//Adicione os números de telefone no arquivo list
 
+const fs = require('fs');
+const qrcode = require('qrcode-terminal');
 const { Client } = require('whatsapp-web.js');
 
 const client = new Client();
+
+const listNumber = 'list'
 
 client.on('qr', qr => {
     qrcode.generate(qr, {small: true});
@@ -45,9 +49,13 @@ client.on('ready', () => {
         }, 250)
     }
 
-    enviarScript(`
-559984222755
-`)
+    try {
+        const contentFile = fs.readFileSync(listNumber, 'utf8') //importa a lista de números do arquivo list
+        enviarScript(contentFile)
+    } catch (e) {
+        console.error('Erro ao importar o arquivo', e)
+        return null
+    }
 });
 
 client.initialize();
