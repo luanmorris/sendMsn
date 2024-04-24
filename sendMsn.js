@@ -8,7 +8,8 @@ const { Client } = require('whatsapp-web.js');
 
 const client = new Client();
 
-const listNumber = 'list'
+const contentFile = 'list'
+const msnBody = 'msnBody.json'
 
 client.on('qr', qr => {
     qrcode.generate(qr, {small: true});
@@ -17,8 +18,8 @@ client.on('qr', qr => {
 client.on('ready', () => {
     console.log('Client is ready!');
 
-    function enviarScript(scriptText){
-        const lines = scriptText.split("\n");
+    function sendMessages(listNumber, data){
+        const lines = listNumber.split("\n")
 
         let i = 0;
 
@@ -30,12 +31,8 @@ client.on('ready', () => {
 
                 const number = lines[i];
 
-                const title = '*NOME DO CURSO*'; //Coloque entre ** para negrito
-                const institution = 'da Instituição'; //Coloque junto com a preposição
-                const address = 'Endereço: Tv. Vitorino Freire, s/n , Areal, Coroatá - MA';
-                const whatsappGroup = "https://chat.whatsapp.com/0000000000000000000000";
+                const message = `${data.title}\nBom dia. Aqui é do corpo técnico ${data.institution}. Estamos enviando o link para o grupo de whatsapp dos alunos que servirá para o envio de materiais, avisos, dúvidas e etc.\n\nSeja bem vindo e bons estudos.\n\n${data.address}\n\n${data.whatsappGroup}`
 
-                const message = `${title}\nBom dia. Aqui é do corpo técnico ${institution}. Estamos enviando o link para o grupo de whatsapp dos alunos que servirá para o envio de materiais, avisos, dúvidas e etc.\n\nSeja bem vindo e bons estudos.\n\n${address}\n\n${whatsappGroup}`;
 
                 const notice = "Caso já faça parte do grupo desconsidere essa mensagem";
 
@@ -50,8 +47,12 @@ client.on('ready', () => {
     }
 
     try {
-        const contentFile = fs.readFileSync(listNumber, 'utf8') //importa a lista de números do arquivo list
-        enviarScript(contentFile)
+        const listNumber = fs.readFileSync(contentFile, 'utf8') //importa a lista de números do arquivo list
+        const contentMsnBody = fs.readFileSync(msnBody, 'utf8')
+        const data = JSON.parse(contentMsnBody)
+
+        sendMessages(listNumber, data)
+
     } catch (e) {
         console.error('Erro ao importar o arquivo', e)
         return null
