@@ -28,7 +28,7 @@ client.on('ready', () => {
 
                 const number = lines[i]
 
-                const message = `${data.title}\nBom dia. Aqui é do corpo técnico ${data.institution}. Estamos enviando o link para o grupo de whatsapp dos alunos que servirá para o envio de materiais, avisos, dúvidas e etc.\n\nSeja bem vindo e bons estudos.\n\n${data.address}\n\n${data.whatsappGroup}`
+                const message = `${data.title}\nOlá, Aqui é do corpo técnico ${data.institution}. Estamos enviando o link para o grupo de whatsapp dos alunos que servirá para o envio de materiais, avisos, dúvidas e etc.\n\nSeja bem vindo e bons estudos.\n\n${data.address}\n\n${data.whatsappGroup}`
                 const notice = "Caso já faça parte do grupo desconsidere essa mensagem"
                 const chatId = number + "@c.us"
 
