@@ -21,28 +21,22 @@ client.on('ready', () => {
     function sendMessages(listNumber, data){
         const lines = listNumber.split("\n")
 
-        let i = 0
-
-        setInterval(() => {
-            if(i >= lines.length) return
-
-            if(lines[i].trim() != ''){
+        for (let i in lines) {
+            if(lines[i].trim() === '') continue
+            setTimeout(() => {
                 console.log(lines[i])
 
                 const number = lines[i]
 
                 const message = `${data.title}\nBom dia. Aqui é do corpo técnico ${data.institution}. Estamos enviando o link para o grupo de whatsapp dos alunos que servirá para o envio de materiais, avisos, dúvidas e etc.\n\nSeja bem vindo e bons estudos.\n\n${data.address}\n\n${data.whatsappGroup}`
-
                 const notice = "Caso já faça parte do grupo desconsidere essa mensagem"
-
                 const chatId = number + "@c.us"
 
                 client.sendMessage(chatId, message)
                 client.sendMessage(chatId, notice)
 
-            }
-            i++
-        }, 250)
+            }, i * 500)
+        }
     }
 
     try {
