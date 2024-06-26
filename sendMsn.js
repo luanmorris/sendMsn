@@ -32,43 +32,23 @@ client.on('ready', () => {
             const groups = chats.filter(chat => chat.isGroup);
             console.log('Groups:');
             groups.forEach(group => {
-                console.log(`Name: ${group.name}, ID: ${group.id._serialized}`);
+                console.log(`ID: ${group.id._serialized}, Name: ${group.name}`);
             });
         });
     }
 
-    function sendMessages(listNumber, data){
-        const lines = listNumber.split("\n")
+    function sendMessages(listNumber, listGroup, data){
+        const list = listNumber + listGroup
+        const lines = list.split("\n")
 
         for (let i in lines) {
             if(lines[i].trim() === '') continue
             setTimeout(async () => {
                 console.log(lines[i])
 
-                const number = lines[i]
+                const chatId = (lines[i].trim().length < 14) ? lines[i].trim() + "@c.us" : lines[i].trim() + "@g.us"
 
                 const message = `*${data.title}*\n\n ${data.body}.\n\n${data.address}\n\n${data.link}`
-                const chatId = number + "@c.us"
-
-                await client.sendMessage(chatId, message)
-                await delay(2000)
-
-            }, i * randomTime)
-        }
-    }
-
-    function sendToGroups(listNumber, data){
-        const lines = listNumber.split("\n")
-
-        for (let i in lines) {
-            if(lines[i].trim() === '') continue
-            setTimeout(async () => {
-                console.log(lines[i])
-
-                const number = lines[i]
-
-                const message = `*${data.title}*\n\n ${data.body}.\n\n${data.address}\n\n${data.link}`
-                const chatId = number + "@g.us"
 
                 await client.sendMessage(chatId, message)
                 await delay(2000)
@@ -78,13 +58,12 @@ client.on('ready', () => {
     }
 
     try {
-        const listGroup = fs.readFileSync(contentFileGroup, 'utf8') //importa a lista de números do arquivo list
-        const listNumber = fs.readFileSync(contentFileNumber, 'utf8') //importa a lista de números do arquivo list
-        const contentMsnBody = fs.readFileSync(msnBody, 'utf8')
+        const listGroup = fs.readFileSync(contentFileGroup, 'utf8') //importa a lista de grupos do arquivo listGroup
+        const listNumber = fs.readFileSync(contentFileNumber, 'utf8') //importa a lista de números do arquivo listNumber
+        const contentMsnBody = fs.readFileSync(msnBody, 'utf8') //importa a mensagem de um arquivo json
         const data = JSON.parse(contentMsnBody)
 
-        sendMessages(listNumber, data)
-        //sendToGroups(listGroup, data)
+        sendMessages(listNumber, listGroup, data)
         //findGroups()
 
     } catch (e) {
