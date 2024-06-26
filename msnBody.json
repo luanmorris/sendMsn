@@ -1,6 +1,6 @@
 {
-    "title": "Nome do Curso",
-    "institution": "da Instituição",
+    "title": "Títudo da sua mensagem",
+    "body": "Corpo da sua mensagem",
     "address": "Endereço: Rua, s/n, Bairro, Cidade - UF",
-    "whatsappGroup": "https://chat.whatsapp.com//0000000000000000000000"
+    "link": "https://chat.whatsapp.com//0000000000000000000000"
 }
