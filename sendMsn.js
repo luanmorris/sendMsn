@@ -42,7 +42,7 @@ client.on('ready', () => {
 
         for (let i in lines) {
             if(lines[i].trim() === '') continue
-            setTimeout(() => {
+            setTimeout(async () => {
                 console.log(lines[i])
 
                 const number = lines[i]
@@ -50,8 +50,8 @@ client.on('ready', () => {
                 const message = `*${data.title}*\n\n ${data.body}.\n\n${data.address}\n\n${data.link}`
                 const chatId = number + "@c.us"
 
-                client.sendMessage(chatId, message)
-                client.sendMessage(chatId, notice)
+                await client.sendMessage(chatId, message)
+                await delay(2000)
 
             }, i * randomTime)
         }
@@ -93,6 +93,10 @@ client.on('ready', () => {
     }
 
 })
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 client.initialize()
 
