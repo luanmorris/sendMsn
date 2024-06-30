@@ -21,6 +21,18 @@ client.on('qr', qr => {
 client.on('ready', () => {
     console.log('Client is ready!')
 
+
+    // Obtenha e liste todos os grupos com seus IDs
+    function findGroups() {
+        client.getChats().then(chats => {
+            const groups = chats.filter(chat => chat.isGroup);
+            console.log('Groups:');
+            groups.forEach(group => {
+                console.log(`Name: ${group.name}, ID: ${group.id._serialized}`);
+            });
+        });
+    }
+
     function sendMessages(listNumber, data){
         const lines = listNumber.split("\n")
 
