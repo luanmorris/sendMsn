@@ -8,7 +8,8 @@ const { Client } = require('whatsapp-web.js')
 
 const client = new Client()
 
-const contentFile = 'list'
+const contentFileGroup = 'listGroup'
+const contentFileNumber = 'listNumber'
 const msnBody = 'msnBody.json'
 
 client.on('qr', qr => {
@@ -40,11 +41,14 @@ client.on('ready', () => {
     }
 
     try {
-        const listNumber = fs.readFileSync(contentFile, 'utf8') //importa a lista de números do arquivo list
+        const listGroup = fs.readFileSync(contentFileGroup, 'utf8') //importa a lista de números do arquivo list
+        const listNumber = fs.readFileSync(contentFileNumber, 'utf8') //importa a lista de números do arquivo list
         const contentMsnBody = fs.readFileSync(msnBody, 'utf8')
         const data = JSON.parse(contentMsnBody)
 
         sendMessages(listNumber, data)
+        //sendToGroups(listGroup, data)
+        //findGroups()
 
     } catch (e) {
         console.error('Erro ao importar o arquivo', e)
