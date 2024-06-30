@@ -21,6 +21,10 @@ client.on('qr', qr => {
 client.on('ready', () => {
     console.log('Client is ready!')
 
+    const min = 2000;
+    const max = 5000;
+
+    const randomTime = Math.floor(Math.random() * (max - min + 1)) + min;
 
     // Obtenha e liste todos os grupos com seus IDs
     function findGroups() {
@@ -50,7 +54,27 @@ client.on('ready', () => {
                 client.sendMessage(chatId, message)
                 client.sendMessage(chatId, notice)
 
-            }, i * 500)
+            }, i * randomTime)
+        }
+    }
+
+    function sendToGroups(listNumber, data){
+        const lines = listNumber.split("\n")
+
+        for (let i in lines) {
+            if(lines[i].trim() === '') continue
+            setTimeout(async () => {
+                console.log(lines[i])
+
+                const number = lines[i]
+
+                const message = `*${data.title}*\n\n ${data.body}.\n\n${data.address}\n\n${data.link}`
+                const chatId = number + "@g.us"
+
+                await client.sendMessage(chatId, message)
+                await delay(2000)
+
+            }, i * randomTime)
         }
     }
 
